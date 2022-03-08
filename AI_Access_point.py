@@ -1,6 +1,9 @@
 from tkinter import *
 import os
+import speech_recognition as sr
 def jessica():
+    screen.destroy()
+    screen6.destroy()
     import pyttsx3
     import datetime
     import wikipedia
@@ -23,6 +26,11 @@ def jessica():
     engine.setProperty('volume',0.7)
     a = 6
     def speak(audio):
+        engine.say(audio)
+        engine.runAndWait()
+        su="-->>"+str(audio)
+        return su
+    def speak1(audio):
         engine.say(audio)
         engine.runAndWait()
     file1=open("AI_account_qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm"+username3,"r")
@@ -57,9 +65,26 @@ def jessica():
             engine.say(audio)
             engine.runAndWait()
         wishme()
+        def takecommand():
+            r=sr.Recognizer()
+            with sr.Microphone() as source:
+                print("Listening....")
+                r.pause_threshold=0.6
+                r.energy_threshold=250
+                audio = r.listen(source)
+            try:
+                print("Recognising......")
+                text= r.recognize_google(audio)
+                print(text)
+                return text.lower()
+            except:
+                print("Say that again please.....")
+                return "    "
+
+
+            
         while a==6:
-            query1 =input("what can i do for you.......:")
-            query = query1.lower()
+            query=takecommand()
             if 'wikipedia' in query:
                 speak("searching wikipedia for you")
                 speak("please wait")
@@ -77,8 +102,8 @@ def jessica():
             elif "open google" in query:
                 webbrowser.open("www.google.com")
             elif "play music" in query:
-                music_dir='C:\music series'
-                awer=random.randint(0,2)
+                music_dir='C:\music'
+                awer=random.randint(0,1)
                 songs = os.listdir(music_dir)
                 os.startfile(os.path.join(music_dir,songs[awer]))
             elif " date" in query:
@@ -108,9 +133,9 @@ def jessica():
                     for ar in article: 
                         results.append(ar["title"]) 
                     for i in range(len(results)):
-                        speak(i+1) 
+                        speak1(i+1) 
                         print(results[i])
-                        speak(results[i])  
+                        speak1(results[i])  
                 NewsFromBBC()
 
 
@@ -379,6 +404,36 @@ def jessica():
                         speak("once the website opens,you have to pass human verification and then you have to search the movie")
                         webbrowser.open("https://openloadmovies.ac/")
 
+            elif "download movie" in query:
+                speak("type the name of the movie you want to download")
+                a=input("::>>")
+                s=""
+                k=len(a)
+                i=0
+                while i<k:
+                    if a[i]==" ":
+                        s+="%20"
+                    else:
+                        s+=a[i]
+                    i+=1
+                d="https://www.1337x.am/search/"+s +"/1/"
+                webbrowser.open(d)
+
+            elif "download a movie" in query:
+                speak("type the name of the movie you want to download")
+                a=input("::>>")
+                s=""
+                k=len(a)
+                i=0
+                while i<k:
+                    if a[i]==" ":
+                        s+="%20"
+                    else:
+                        s+=a[i]
+                    i+=1
+                d="https://www.1337x.am/search/"+s +"/1/"
+                webbrowser.open(d)
+
             elif " python idle" in query:
                 codepath="C:\\Users\\my computer\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe" 
                 os.startfile(codepath)
@@ -392,6 +447,17 @@ def jessica():
                 else:
                     speak("have sweet dreams sir")
                 a=7
+            elif "shut down yourself" in query:
+                speak("ok!")
+                hour = int(datetime.datetime.now().hour)
+                if hour>=0 and hour<18:
+                    speak("enjoy your day sir")
+                elif hour>=18 and hour<21:
+                    speak("enjoy your evening sir")
+                else:
+                    speak("have sweet dreams sir")
+                a=7
+
             elif "shutdown the computer" in query:
                 speak("ok!")
                 hour = int(datetime.datetime.now().hour)
@@ -407,9 +473,9 @@ def jessica():
                 awe=input("enter the site:")
                 aw2="ping "+awe
                 result=os.system(aw2)
-            elif query=="hem jessica":
+            elif query=="hey jessica":
                 speak("yes sir what can i do for you")
-            elif query=="hm jessica":
+            elif query=="hi jessica":
                 speak("hi sir what can i do for you")
             elif "open my website" in query:
                 webbrowser.open("http://sonamaniforextourism.viamagus.com/")
@@ -796,8 +862,8 @@ def jessica():
                         speak("according to wikipedia")
                         speak(results)
                     except Exception as e:
-                        speak("sorry sir!")
-                        speak("i cannot execute your command!")
+                        print("Say that again please")
+                        
 
     elif "female" in gender:
         def wishme():
@@ -823,10 +889,23 @@ def jessica():
         def speak(audio):
             engine.say(audio)
             engine.runAndWait()
+        def takecommand():
+            r=sr.Recognizer()
+            with sr.Microphone() as source:
+                print("Listening....")
+                r.pause_threshold=1
+                audio = r.listen(source)
+            try:
+                print("Recognising......")
+                text= r.recognize_google(audio)
+                print(text)
+                return text.lower()
+            except:
+                print("Say that again please.....")
+                return "    "
         wishme()
         while a==6:
-            query1 =input("what can i do for you.......:")
-            query = query1.lower()
+            query =takecommand()
             if 'wikipedia' in query:
                 speak("searching wikipedia for you")
                 speak("please wait")
@@ -844,7 +923,7 @@ def jessica():
             elif "open google" in query:
                 webbrowser.open("www.google.com")
             elif "play music" in query:
-                music_dir='C:\music series'
+                music_dir='C:\music'
                 awer=random.randint(0,2)
                 songs = os.listdir(music_dir)
                 os.startfile(os.path.join(music_dir,songs[awer]))
@@ -1558,8 +1637,8 @@ def jessica():
                         speak("according to wikipedia")
                         speak(results)
                     except Exception as e:
-                        speak("sorry ma'am!")
-                        speak("i cannot execute your command!")
+                        print("sorry ma'am!")
+                        print("Say that again please")
     
         
 
@@ -1622,10 +1701,23 @@ def friday():
         def speak(audio):
             engine.say(audio)
             engine.runAndWait()
+        def takecommand():
+            r=sr.Recognizer()
+            with sr.Microphone() as source:
+                print("Listening....")
+                r.pause_threshold=1
+                audio = r.listen(source)
+            try:
+                print("Recognising......")
+                text= r.recognize_google(audio)
+                print(text)
+                return text.lower()
+            except:
+                print("Say that again please.....")
+                return "    "
         wishme()
         while a==6:
-            query1 =input("what can i do for you.......:")
-            query = query1.lower()
+            query =takecommand()
             if 'wikipedia' in query:
                 speak("searching wikipedia for you")
                 speak("please wait")
@@ -1643,7 +1735,7 @@ def friday():
             elif "open google" in query:
                 webbrowser.open("www.google.com")
             elif "play music" in query:
-                music_dir='C:\music series'
+                music_dir='C:\music'
                 awer=random.randint(0,2)
                 songs = os.listdir(music_dir)
                 os.startfile(os.path.join(music_dir,songs[awer]))
@@ -2362,8 +2454,8 @@ def friday():
                         speak("according to wikipedia")
                         speak(results)
                     except Exception as e:
-                        speak("sorry sir!")
-                        speak("i cannot execute your command!")
+                        print("sorry sir!")
+                        print("i cannot execute your command!")
 
     elif "female" in gender:
         def wishme():
@@ -2389,10 +2481,23 @@ def friday():
         def speak(audio):
             engine.say(audio)
             engine.runAndWait()
+        def takecommand():
+            r=sr.Recognizer()
+            with sr.Microphone() as source:
+                print("Listening....")
+                r.pause_threshold=1
+                audio = r.listen(source)
+            try:
+                print("Recognising......")
+                text= r.recognize_google(audio)
+                print(text)
+                return text.lower()
+            except:
+                print("Say that again please.....")
+                return "    "
         wishme()
         while a==6:
-            query1 =input("what can i do for you.......:")
-            query = query1.lower()
+            query =takecommand()
             if 'wikipedia' in query:
                 speak("searching wikipedia for you")
                 speak("please wait")
@@ -3124,8 +3229,8 @@ def friday():
                         speak("according to wikipedia")
                         speak(results)
                     except Exception as e:
-                        speak("sorry ma'am!")
-                        speak("i cannot execute your command!")
+                        print("sorry ma'am!")
+                        print("i cannot execute your command!")
         
             
 
@@ -3142,7 +3247,7 @@ def login_success():
     Label(screen6,text="",bg="purple").pack()
     Button(screen6,text="FRIDAY",bg="blue",fg="aqua",height="3",width="20",command=friday).pack()
     Label(screen6,text="",bg="purple").pack()
-    Button(screen6,text="FRIDAY",bg="blue",fg="aqua",height="3",width="20",command=jessica).pack()
+    Button(screen6,text="JESSICA",bg="blue",fg="aqua",height="3",width="20",command=jessica).pack()
 def login_again():
     screen5.destroy()
 def login_user():
